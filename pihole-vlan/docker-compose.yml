@@ -7,8 +7,6 @@ services:
     image: pihole/pihole:latest
     hostname: pihole                       # <-- container's hostname
     domainname: jolania.in               # <-- domain name of your pihole container
-    group_add:
-      - www-data
     mac_address:  66:e5:3e:6f:0e:0d         # <-- replace with a random mac address,
  
     # The above should be something like e2:09:0e:d4:40:66. This is NOT the physical server.
@@ -17,7 +15,7 @@ services:
     cap_add:
       - NET_ADMIN
     networks:
-      pihole_network:
+      macvlan0:
         ipv4_address: 192.168.0.103         # <-- Replace with an unused ip address on your network to assign to the Pi-hole instance (not ip address of the physical server)
     dns:
       - 127.0.0.1
@@ -38,15 +36,9 @@ services:
     volumes:
       - ./etc/pihole:/etc/pihole
       - ./etc/dnsmasq.d:/etc/dnsmasq.d
+      - ./backups/:/backups/
       
 networks:
-  pihole_network:
-    driver: macvlan
-    driver_opts:
-      parent: wlan0
-    ipam:
-      config:
-        - subnet: 192.168.0.1/24            # <-- Revise 192.168.0.1 to match your gateway
-          gateway: 192.168.0.1              # <-- Revise 192.168.0.1 to match your gateway
-          ip_range: 192.168.0.211/29        # <-- Revise 192.168.0.X to match Ipv4 address (above) + 1. The 29 is number of ips reserved for DHCP (optional).
- 
+  macvlan:   # externally created network (later in article)
+    external: true
+  
