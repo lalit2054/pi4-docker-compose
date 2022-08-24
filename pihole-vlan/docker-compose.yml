@@ -39,6 +39,6 @@ services:
       - ./backups/:/backups/
       
 networks:
-  macvlan:   # externally created network (later in article)
+  macvlan0:   # externally created network (later in article)
     external: true
   
