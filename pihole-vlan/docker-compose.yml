@@ -23,11 +23,11 @@ services:
       - 1.1.1.1      #<-- Replace
  
     ports:
-      - 443/tcp
-      - 53/tcp
-      - 53/udp
-      - 67/udp
-      - 80/tcp
+      - 443:443/tcp
+      - 53:53/tcp
+      - 53:53/udp
+      - 67:67/udp
+      - 80:80/tcp
     environment:
       ServerIP: 192.168.0.103        # <-- Revise to match ipv4_address above)
       VIRTUAL_HOST: pihole.jolania.in  # <-- Revise to match hostname + domainname)
